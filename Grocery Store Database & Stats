@@ -1,0 +1,27 @@
+--Create a grocery store database:
+
+CREATE TABLE Makeup (id INTEGER PRIMARY KEY, product TEXT, area TEXT, stock INTEGER, sold INTEGER, price INTEGER);
+
+INSERT INTO makeup VALUES (1, "Mascara", "Eyes", 345, 15, 9.99);
+INSERT INTO makeup VALUES (2, "Blotting powder", "Face", 213, 0, 12.99);
+INSERT into makeup VALUES (3, "Lipgloss", "Lips", 124, 0, 6.99);
+INSERT INTO makeup VALUES (4, "Blush", "Face", 503, 0, 16.89);
+INSERT INTO makeup VALUES (5, "Bronzer", "Face", 448, 0, 13.45);
+INSERT INTO makeup VALUES (6, "Concealer", "Face", 26, 0, 10.99);
+INSERT INTO makeup VALUES (7, "Contour", "Face", 86, 0, 15.99);
+INSERT INTO makeup VALUES (8, "False lashes", "Eyes", 229, 0, 9.99);
+INSERT INTO makeup VALUES (9, "Foundation", "Face", 115, 0, 9.45);
+INSERT INTO makeup VALUES (10, "Tinted moisturiser", "Face", 791, 0, 6.99); 
+INSERT INTO makeup VALUES (11, "Eyshadow", "Eyes", 50, 0, 3.45);
+INSERT INTO makeup VALUES (12, "Lipstick", "Lips", 330, 0, 5.99);
+INSERT INTO makeup VALUES (13, "Highlighter", "Face", 116, 0, 7.95);
+INSERT INTO makeup VALUES (14, "Eye cream", "Eyes", 77, 0, 5.00);
+INSERT INTO makeup VALUES (15, "Lipliner", "Lips", 201, 0, 6.12);
+
+--Display the database ordered by price:
+
+SELECT * FROM Makeup ORDER BY price;
+
+-- Display the total stock inventory:
+
+SELECT SUM(stock) FROM Makeup;
