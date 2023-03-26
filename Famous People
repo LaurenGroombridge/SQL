@@ -1,0 +1,78 @@
+/* Create table about the people and what they do here */
+
+/**Names, careers, spouses, birthplace**/
+
+CREATE TABLE famous_people (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, career TEXT, spouse TEXT, birth_place TEXT);
+
+INSERT INTO famous_people (name, career, spouse, birth_place) VALUES ("Blake Shelton", "Singer", "Gwen Stefani", "Oklahoma");
+INSERT INTO famous_people (name, career, spouse, birth_place) VALUES ("Johnny Depp", "Actor", "NULL", "Kentucky");
+INSERT INTO famous_people (name, career, spouse, birth_place) VALUES ("Gwen Stefani", "Singer", "Blake Shelton", "California");
+INSERT INTO famous_people (name, career, spouse, birth_place) VALUES ("Ken Follett", "Author", "NULL", "Cardiff");
+INSERT INTO famous_people (name, career, spouse, birth_place) VALUES ("Aliena of Shiring", "Lady", "Jack Jackson", "Shiring");
+INSERT INTO famous_people (name, career, spouse, birth_place) VALUES ("Jack Jackson", "Master Builder", "Aliena of Shiring", "Shiring");
+
+/**Books, songs, movies**/
+
+CREATE TABLE media (id INTEGER PRIMARY KEY AUTOINCREMENT, famous_person_id INTEGER, book TEXT, movie TEXT, song TEXT);
+
+INSERT INTO media (famous_person_id, book, movie, song) VALUES (1, "Null", "Null", "God Gave Me You");
+INSERT INTO media (famous_person_id, book, movie, song) VALUES (2, "Null", "The Secret Window", "Null");
+INSERT INTO media (famous_person_id, book, movie, song) VALUES (2, "Null", "Pirates of the Caribbean", "Null");
+INSERT INTO media (famous_person_id, book, movie, song) VALUES (2, "Null", "Transcendence", "Null");
+INSERT INTO media (famous_person_id, book, movie, song) VALUES (3, "Null", "Null", "Hollaback Girl");
+INSERT INTO media (famous_person_id, book, movie, song) VALUES (4, "Pillars of the Earth", "Null", "Null");
+INSERT INTO media (famous_person_id, book, movie, song) VALUES (5, "Pillars of the Earth", "Null", "Null");
+INSERT INTO media (famous_person_id, book, movie, song) VALUES (6, "Pillars of the Earth", "Null", "Null");
+
+CREATE TABLE fictional (id INTEGER PRIMARY KEY AUTOINCREMENT, famous_person_id INTEGER, is_fictional_person TEXT);
+
+INSERT INTO fictional (famous_person_id, is_fictional_person) VALUES (2, "No");
+INSERT INTO fictional (famous_person_id, is_fictional_person) VALUES (3, "No");
+INSERT INTO fictional (famous_person_id, is_fictional_person) VALUES (4, "No");
+INSERT INTO fictional (famous_person_id, is_fictional_person) VALUES (5, "Yes");
+INSERT INTO fictional (famous_person_id, is_fictional_person) VALUES (6, "Yes");
+
+/**Actors and films they starred in**/
+
+SELECT name, media.movie
+FROM famous_people
+JOIN media 
+ON famous_people.id = famous_person_id
+WHERE famous_people.career = "Actor";
+
+/**Fictional characters and the books they show up in**/
+
+SELECT name, fictional.is_fictional_person, media.book
+FROM famous_people
+JOIN fictional
+ON famous_people.id = fictional.famous_person_id
+JOIN media
+ON famous_people.id = media.famous_person_id
+WHERE fictional.is_fictional_person = "Yes" AND book != "NULL";
+
+/**Singers and the songs they wrote**/
+
+SELECT famous_people.name, media.song
+FROM famous_people
+JOIN media
+ON famous_people.id = media.famous_person_id
+WHERE media.song != "Null";
+
+/**Authors and books they wrote**/
+SELECT name, media.book
+FROM famous_people
+JOIN media
+ON famous_people.id = media.famous_person_id
+JOIN fictional
+ON famous_people.id = fictional.famous_person_id
+WHERE is_fictional_person = "No" AND famous_people.career = "Author";
+
+/**Fictional characters who are married and the book they appear in**/
+
+SELECT name, spouse, book
+FROM famous_people
+JOIN media
+ON famous_people.id = media.famous_person_id
+JOIN fictional
+ON famous_people.id = fictional.famous_person_id
+WHERE is_fictional_person = "Yes";
