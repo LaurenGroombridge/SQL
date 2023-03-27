@@ -1,0 +1,51 @@
+#In this SQL code, I'm querying a database that's holding Nexflix data to answer questions about the data. 
+
+--Joining the tables to see the director, whether it's a movie or a TV show, the country and rating
+
+SELECT people.director, titles.type, titles.country, titles.rating
+FROM "CharlotteChaze/BreakIntoTech"."netflix_people" people
+LEFT JOIN "CharlotteChaze/BreakIntoTech"."netflix_titles_info" titles
+ON people.show_id = titles.show_id;
+
+--How many movie titles are there in the database? (movies only, not tv shows)
+SELECT COUNT(*)
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
+WHERE type = 'Movie';
+
+--When was the most recent batch of tv shows and/or movies added to the database?
+SELECT MAX(date(date_added))
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info";
+
+--List all the movies and tv shows in alphabetical order.
+
+SELECT title
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
+ORDER BY title ASC;*/
+
+--Who was the Director for the movie Bright Star
+
+SELECT director
+FROM "CharlotteChaze/BreakIntoTech"."netflix_people" people
+JOIN "CharlotteChaze/BreakIntoTech"."netflix_titles_info" titles
+ON people.show_id = titles.show_id
+WHERE titles.title = 'Bright Star';
+
+--What is the oldest movie in the database and what year was it made?
+
+SELECT title, release_year
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
+WHERE type='Movie'
+ORDER BY release_year asc
+LIMIT 1;
+
+
+# Or, can use a "subquery" like this to see all the oldest movies
+# without assuming that there was only 1 that year (as there was 2):
+
+SELECT title, release_year 
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
+WHERE type = 'Movie'
+AND release_year <= 
+(SELECT MIN(release_year) 
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
+WHERE type = 'Movie'); 
