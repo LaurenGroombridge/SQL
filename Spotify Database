@@ -1,0 +1,82 @@
+# For this project, I downloaded Spotify data from Kaggle.
+# Then I created a table to insert Spotify data into.
+# Finally, I performed analytics on the data using SQL. 
+
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+song_key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+song_mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness decimal(8,7) NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL );
+
+--What is the average danceability of Olivia Rodrigo's songs?
+SELECT AVG(danceability)
+FROM BIT_DB.Spotifydata
+WHERE artist_name = 'Olivia Rodrigo';
+
+
+--Who are the top 10 artists based on popularity? 
+SELECT artist_name, popularity
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+ORDER BY popularity DESC LIMIT 10;
+
+--What artist released the longest song and how long was it? 
+SELECT artist_name, duration_ms
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+ORDER BY duration_ms DESC LIMIT 1;
+
+--What's the average danceability for the 10 most popular songs?
+SELECT AVG(danceability)
+FROM BIT_DB.Spotifydata
+ORDER BY popularity DESC LIMIT 10;
+
+--What is the song with the highest acousticness and what is the acousticness level?
+SELECT track_name, acousticness
+FROM BIT_DB.Spotifydata
+GROUP BY track_name
+ORDER BY acousticness DESC LIMIT 1;
+
+--What is the average tempo for the 10 least popular songs ?
+SELECT AVG(tempo)
+FROM BIT_DB.Spotifydata
+ORDER BY popularity ASC LIMIT 10;
+
+--How many artists have more than 1 song in the table?
+SELECT artist_name
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+HAVING COUNT(artist_name) > 1;
+
+--How many tracks have a mode of major (major is represented by 1, minor is 0)?
+SELECT COUNT(song_mode)
+FROM BIT_DB.Spotifydata
+WHERE song_mode = 1;
+
+--What are the 5 loudest songs?
+SELECT track_name
+FROM BIT_DB.Spotifydata
+ORDER BY loudness DESC LIMIT 5;
+
+--How many artists have songs with an energy level of over 0.5?
+SELECT COUNT(artist_name)
+FROM BIT_DB.Spotifydata
+WHERE energy > 0.5;
+
+
+
+
